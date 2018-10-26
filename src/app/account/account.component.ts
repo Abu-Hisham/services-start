@@ -1,12 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { LoggingService } from '../logging.service';
 import { AccountService } from '../accounts.service';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.css'],
-  providers: [LoggingService, AccountService]
+  //providers: [LoggingService]
 })
 export class AccountComponent {
   @Input() account: {name: string, status: string};
@@ -14,10 +13,9 @@ export class AccountComponent {
  
 
 
-  constructor(private loggingService: LoggingService,
-              private accountService: AccountService){}
+  constructor(private accountService: AccountService){}
   onSetTo(status: string) {
-    this.accountService.updateStatus(this.id,status)
-    this.loggingService.logStatusChange(status);
+    this.accountService.updateStatus(this.id,status);
+    this.accountService.statusUpdated.emit(status);
   }
 }
